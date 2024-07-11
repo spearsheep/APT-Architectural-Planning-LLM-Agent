@@ -169,4 +169,20 @@ class Actions:
         self.pathfinding(position)
         self.equip(item, "hand")
         self.bot.placeBlock(referenceBlock, faceVector)
-        self.bot.chat(f"Placed {name}")
+        self.bot.chat
+        
+
+    def mineBlock(self,name,count=1):
+        blockByName = self.mcData.blocksByName[name]
+        blocks = self.bot.findBlocks({
+                    "matching": blockByName.id,
+                    "maxDistance": 32,
+                    "count": count,
+                    'timeout': 30,
+                })
+        targets = [self.bot.blockAt(block) for block in blocks]
+        self.bot.collectBlock.collect(targets, {
+                    'count': count,
+                })
+        self.bot.chat((f"I have finished mining {name}"))
+    
