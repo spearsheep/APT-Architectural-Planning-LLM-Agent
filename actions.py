@@ -176,13 +176,11 @@ class Actions:
         blockByName = self.mcData.blocksByName[name]
         blocks = self.bot.findBlocks({
                     "matching": blockByName.id,
-                    "maxDistance": 32,
+                    "maxDistance": 70,
                     "count": count,
-                    'timeout': 30,
+                    'timeout': 1000,
                 })
         targets = [self.bot.blockAt(block) for block in blocks]
-        self.bot.collectBlock.collect(targets, {
-                    'count': count,
-                })
+        self.bot.collectBlock.collect(targets, timeout=1000)
         self.bot.chat((f"I have finished mining {name}"))
     
