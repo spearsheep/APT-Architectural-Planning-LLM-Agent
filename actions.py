@@ -184,3 +184,49 @@ class Actions:
         self.bot.collectBlock.collect(targets, timeout=1000)
         self.bot.chat((f"I have finished mining {name}"))
     
+    def craft_item(self, name, amount):
+        # Retrieve the item by name
+        item = self.bot.registry.itemsByName[name]
+
+        # Get the crafting table ID
+        craftingTableID = self.bot.registry.blocksByName.crafting_table.id
+
+        # Find the crafting table within a 32 block radius
+        craftingTable = self.bot.findBlocks({
+            "matching": craftingTableID,
+            "maxDistance": 32,
+        })
+
+        # Pathfind to the first crafting table found
+        self.pathfinding(craftingTable[0])
+
+        # Get the block at the crafting table location
+        craftingTableBlock = self.bot.blockAt(craftingTable[0])
+
+        # Find the recipe for the item
+        recipe = self.bot.recipesFor(item.id, None, amount, craftingTableBlock)[0]
+
+        # Craft the item with a timeout of 1000ms
+        self.bot.craft(recipe, amount, craftingTableBlock, timeout=1000)
+
+
+    def smelt_items(self, itemName, fuelName, count):
+        item = self.bot.registry.itemsByName[itemName]
+        fuel = self.bot.registry.itemsByName[fuelName]
+        furnaceBlock = self.bot.findBlock({
+            'matching': self.bot.registry.blocksByName.furnace.id,
+            'maxDistance': 32,
+        })
+
+        self.pathfinding(furnaceBlock.position)
+
+        furnace = self.bot.openFurnace(furnaceBlock)
+        for i in range(count):
+            furnace.putFuel(fuel.id, None, 1)
+            furnace.putInput(item.id, None, 1)
+            # Wait 12 seconds for the furnace to smelt the item
+            self.bot.waitForTicks(12 * 20)
+            furnace.takeOutput()
+        furnace.close()
+
+    
