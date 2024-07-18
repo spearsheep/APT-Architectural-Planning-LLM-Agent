@@ -184,7 +184,7 @@ class Actions:
         self.bot.collectBlock.collect(targets, timeout=1000)
         self.bot.chat((f"I have finished mining {name}"))
     
-    def craft_item(self, name, amount):
+    def craftItem(self, name, amount):
         # Retrieve the item by name
         item = self.bot.registry.itemsByName[name]
 
@@ -210,7 +210,7 @@ class Actions:
         self.bot.craft(recipe, amount, craftingTableBlock, timeout=1000)
 
 
-    def smelt_items(self, itemName, fuelName, count):
+    def smeltItems(self, itemName, fuelName, count):
         item = self.bot.registry.itemsByName[itemName]
         fuel = self.bot.registry.itemsByName[fuelName]
         furnaceBlock = self.bot.findBlock({
@@ -228,5 +228,64 @@ class Actions:
             self.bot.waitForTicks(12 * 20)
             furnace.takeOutput()
         furnace.close()
+    
+    def observe(self, distance):
+        entities = []
+        blocks = []
+        
+        # Gather information about nearby blocks within the specified distance
+        for x in range(-distance, distance + 1):
+            for y in range(-distance, distance + 1):
+                for z in range(-distance, distance + 1):
+                    position = self.bot.entity.position.offset(x, y, z)
+                    block = self.bot.blockAt(position)
+                    if block and block.name != 'air':
+                        blocks.append({
+                            'name': block.name,
+                            'position': block.position,
+                            'type': block.type
+                        })
+        
+        # Gather information about nearby entities within the specified distance
+        for entityId in self.bot.entities:
+            entity = self.bot.entities[entityId]
+            if not entity or entity.position is None:
+                continue  # Skip entities without a valid position
+
+            entityPosition = entity.position
+            botPosition = self.bot.entity.position
+            distanceToEntity = math.sqrt(
+                (entityPosition.x - botPosition.x) ** 2 +
+                (entityPosition.y - botPosition.y) ** 2 +
+                (entityPosition.z - botPosition.z) ** 2
+            )
+
+            if distanceToEntity <= distance:
+                entities.append({
+                    'name': entity.name,
+                    'type': entity.kind,
+                    'position': entityPosition
+                })
+
+        return {'blocks': blocks, 'nearbyEntities': entities}
+    
+    def getState(self):
+        # Get the bot's health
+        health = self.bot.health
+        
+        # Get the bot's food level
+        food = self.bot.food
+        
+        # Get the bot's inventory items
+        inventory = []
+        for slot in self.bot.inventory.slots:
+            if slot is not None:  # Only process non-empty slots
+                inventory.append({
+                    'name': slot.name,
+                    'count': slot.count,
+                    'slot': slot.slot
+                })
+
+        return {'health': health, 'food': food, 'inventory': inventory}
 
     
