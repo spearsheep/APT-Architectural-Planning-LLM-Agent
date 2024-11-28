@@ -1,10 +1,15 @@
 from langchain_chroma import Chroma
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain_core.documents import Document
+import os
+
+# Retrieve the API key from the environment
+
 
 class MemoryDatabase:
     def __init__(self, collection_name="sample_collection", persist_directory="./memory_databases"):
-        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large",openai_api_key='sk-proj-K3Ezxr5EfkFTVqoHR9x6T3BlbkFJbNXk2FoiqG65C6t6Vr94')  # Initialize embeddings
+        api_key = os.getenv("OPENAI_API_KEY")
+        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large",openai_api_key=api_key)  # Initialize embeddings
         self.vector_store = Chroma(collection_name=collection_name, persist_directory=persist_directory, embedding_function=self.embeddings)
 
     def _format_memory_content(self, task, plan, observation):
