@@ -9,7 +9,7 @@ import os
 class MemoryDatabase:
     def __init__(self, collection_name="sample_collection", persist_directory="./memory_databases"):
         self.api_key = os.getenv("OPENAI_API_KEY")
-        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large",openai_api_key=self.api_key )  # Initialize embeddings
+        self.embeddings = OpenAIEmbeddings(model="text-embedding-3-large",openai_api_key=self.api_key)  # Initialize embeddings
         self.vector_store = Chroma(collection_name=collection_name, persist_directory=persist_directory, embedding_function=self.embeddings)
 
     def _format_memory_content(self, task, plan, observation):
