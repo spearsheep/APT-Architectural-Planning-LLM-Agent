@@ -30,3 +30,66 @@ We introduce a comprehensive benchmark comprising diverse construction tasks des
 - Effective integration of multimodal instructions
 
 Experimental results demonstrate the agent's ability to accurately interpret extensive instructions involving numerous items, positions, and orientations. A/B testing indicates that the inclusion of a memory module significantly enhances performance, emphasizing its role in continuous learning and experience reuse.
+
+
+## Installation
+
+
+### Install Packages and Environments
+
+#### Install Node.js and npm
+Ensure you have Node.js installed on your machine. If not, follow these steps:
+1. Visit the [Node.js Official Site](https://nodejs.org/).
+2. Download and install the appropriate version for your operating system.
+
+#### Install Mineflayer
+1. Open your terminal or command prompt.
+2. Run the following command to install Mineflayer:
+   ```bash
+   npm install mineflayer
+
+For more information, you can find the detailed tutorial at the [Mineflayer GitHub Repository](https://github.com/PrismarineJS/mineflayer).
+
+### Install Minecraft 
+
+#### Requirements
+- Minecraft Java Edition
+- A valid Mojang or Microsoft account
+
+#### Steps to set up Minecraft
+
+1. Visit the [Minecraft Official Website](https://www.minecraft.net/).
+2. Navigate to the **"Get Minecraft"** section.
+3. Select your platform (Windows, macOS, or Linux) and choose **Java Edition**.
+4. Follow the instructions to purchase (if you don't already own it) and download the launcher.
+5. Install the launcher and log in using your Mojang or Microsoft account.
+6. Start the launcher, select the release version compatible with Mineflayer. For our test setup, we used version `1.17`. Then click **Play** to load the game.
+7. Create a new world and ensure the following settings are applied:
+   - Set the game mode to **Creative**.
+   - Enable **Cheats** to allow command usage required for our package.
+8. Once the world loads, open the **Pause Menu**, click **Open to LAN**, and take note of the **Port Number** displayed. This will be required for later usage.
+
+For more detailed instructions, visit the [Minecraft Help Center](https://help.minecraft.net/).
+
+
+
+## User Guide
+1. For convenient usage, refer to the `APTAgent.ipynb` file for detailed demo instructions. This notebook provides step-by-step guidance to experiment with our agent framework.  
+2. Please ensure you use your own OpenAI API key for authentication.
+
+
+## Citation
+If you find our agent framework or benchmark meaningful, please consider citing us!
+```bibtex
+@misc{chen2024aptarchitecturalplanningtexttoblueprint,
+      title={APT: Architectural Planning and Text-to-Blueprint Construction Using Large Language Models for Open-World Agents}, 
+      author={Jun Yu Chen and Tao Gao},
+      year={2024},
+      eprint={2411.17255},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2411.17255}, 
+}
+```
+
+
